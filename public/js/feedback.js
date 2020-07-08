@@ -441,7 +441,9 @@ $Router.config([
             
                 hideLoader();
             });
-        } else if (ap === 'dashboard') {
+        }
+        
+        if (ap === 'dashboard') {
             let feedbackQnsList = [];
             // let optionsList = [];
             let colorList = ['bg-pink-300', 'bg-red-400', 'bg-green-500', 'bg-yellow-400', 'bg-indigo-500', 'bg-orange-400', 'bg-teal-700'];
@@ -546,7 +548,9 @@ $Router.config([
                     hideLoader();
                 });
             });
-        } else if (ap === 'thank-you') {
+        }
+        
+        if (ap === 'thank-you') {
             hideLoader();
         }
     }
