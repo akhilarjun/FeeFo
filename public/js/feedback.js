@@ -85,6 +85,7 @@ const paintEditForm = (qnsList, surveyQnHolder) => {
         }
         surveyQnHolder.append(surveyQnCard);
     });
+    populateSurveyQnStatement()
 }
 
 const showModal = (id, actionFor) => {
@@ -166,6 +167,7 @@ $Router.config([
                     SURVEY_CARD.placeholders.title = survey.name;
                     SURVEY_CARD.placeholders.noOfReplies = survey.replyCount;
                     SURVEY_CARD.placeholders.id = survey.feedbackFor;
+                    SURVEY_CARD.placeholders.formurl = survey.sharableURL;
                     SURVEY_CARD.placeholders.surveyno = i+1;
                     surveyContainer.append(Templates.compile(SURVEY_CARD));
                 });
@@ -187,21 +189,27 @@ $Router.config([
             window.onscroll = windowScrollingFn;
 
             const surveyQnHolder = document.getElementById('edit_survey_qns');
-            let qnsList, surveyForm;
-            fetch('/getconfig/'+feedbackForID).then(checkForErrors).then(res => {
-                return res.json();
-            }).then(res => {
-                document.title = res.name + ' | Edit Form from FeeFo';
-                document.getElementById('survey_name').textContent = res.name;
-                document.getElementById('survey_name').title = res.name;
-                document.getElementById('edit_survey_name').textContent = res.name;
-                document.getElementById('survey_name').href = `/?id=${feedbackForID}#edit`;
-                surveyForm = res;
-                qnsList = res.qns;
-                paintEditForm(res.qns, surveyQnHolder);
-                windowScrollingFn();
-                hideLoader();
-            });
+            let qnsList, surveyForm = {};
+
+            const populateSurveyName = () => {
+                const value = document.getElementById('edit_survey_name').textContent;
+                document.getElementById('survey_name').textContent = value;
+                surveyForm.name = value;
+            }
+
+            populateSurveyQnStatement = () => {
+                document.querySelectorAll('[survey-qn-statement-for]').forEach((el, index) => {
+                    let pushValue = (e) => {
+                        let questionNum = e.target.getAttribute('survey-qn-statement-for');
+                        qnsList[Number(questionNum)-1].statement = e.target.textContent;
+                    }
+                    el.addEventListener('blur', pushValue)
+                    el.addEventListener('keyup', pushValue)
+                })
+            }
+
+            document.getElementById('edit_survey_name').addEventListener('keyup', populateSurveyName);
+            document.getElementById('edit_survey_name').addEventListener('blur', populateSurveyName);
 
             deleteSurveyQn = (num) => {
                 qnsList.splice(num-1, 1);
@@ -262,7 +270,41 @@ $Router.config([
 
             saveSurvey = () => {
                 surveyForm.qns = qnsList;
-                console.log(surveyForm)
+                fetch('/save-qn', {
+                    method: 'post',
+                    body: JSON.stringify(surveyForm),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(resp => {
+                    resp.json().then(r => {
+                        if (r.status == 'SUCCESS') {
+                            $Router.hash('#surveys');
+                        }
+                    })
+                });
+            }
+
+            if (feedbackForID) {
+                fetch('/getconfig/'+feedbackForID).then(checkForErrors).then(res => {
+                    return res.json();
+                }).then(res => {
+                    document.title = res.name + ' | Edit Form from FeeFo';
+                    document.getElementById('survey_name').textContent = res.name;
+                    document.getElementById('survey_name').title = res.name;
+                    document.getElementById('edit_survey_name').textContent = res.name;
+                    document.getElementById('survey_name').href = `/?id=${feedbackForID}#edit`;
+                    surveyForm = res;
+                    qnsList = res.qns;
+                    paintEditForm(res.qns, surveyQnHolder);
+                    windowScrollingFn();
+                    hideLoader();
+                });
+            } else {
+                hideLoader();
+                qnsList = [];
+                document.getElementById('survey_name').textContent = 'Survey Name';
+                document.getElementById('edit_survey_name').focus();
             }
         }
 
@@ -270,7 +312,9 @@ $Router.config([
             const errorMsgHolder = document.getElementById('error-msgs');
             const submitBtn = document.getElementById('submit_button');
             let version, totalQnsLength = 0;
-
+            document.querySelectorAll('[ data-not-needed]').forEach(el => {
+                el.dataset.notNeeded = true;
+            })
 
             let answers = {
                 feedback: [],
@@ -281,9 +325,11 @@ $Router.config([
             //global error handling
             window.onerror = (e) => {
                 const msg = e.replace('Uncaught ', '');
-                errorMsgHolder.textContent = msg;
-                errorMsgHolder.style.display = 'block';
-                errorMsgHolder.scrollIntoView();
+                if (msg !== 'Script error.') {
+                    errorMsgHolder.textContent = msg;
+                    errorMsgHolder.style.display = 'block';
+                    errorMsgHolder.scrollIntoView();
+                }
             }
 
             const generateFeedbackClob = () => {

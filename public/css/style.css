@@ -123,8 +123,8 @@ input:focus+.mg-glass{
     transform: scale(1.2) rotate(0deg);
 }
 
-.not-logged-in [need-login] {
-    display: none;
+.not-logged-in [need-login], [data-not-needed='true'] {
+    display: none !important;
 }
 
 /** Google Sign in */

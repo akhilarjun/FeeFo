@@ -28,6 +28,15 @@ const getIPV4 = () => {
     return ipv4Address;
 }
 
+/**
+ * @author https://gist.github.com/gordonbrander/2230317
+ * 
+ * Create a unique id everytime
+ */
+const genUID = () => {
+    return Math.random().toString(36).substr(2,4)+'_'+Math.random().toString(36).substr(2,4)+'_'+Math.random().toString(36).substr(2,4);
+}
+
 var token = 'eyJhbGciOiJSUzI1NiIsImtpZCI6ImE0MWEzNTcwYjhlM2FlMWI3MmNhYWJjYWE3YjhkMmRiMjA2NWQ3YzEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNjY4MDE0NDQ2NjE0LWVzMzBmcTlhM3NtcTRiM3FvcGU2NXExYWhkOW9ucHFuLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNjY4MDE0NDQ2NjE0LWVzMzBmcTlhM3NtcTRiM3FvcGU2NXExYWhkOW9ucHFuLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTE3NjI5OTY0MzgwNDY1MTg5MjI1IiwiZW1haWwiOiJha2hpbHBhcmp1bkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6ImtIZy11UEYzQmprUWpfNlRyM0hMemciLCJuYW1lIjoiQWtoaWwgQXJqdW4iLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FPaDE0R2l1VGR2RDFoQ0sySEZCNldyVVdxOGRNNGxUZGNzM2xmLTdLTDFsbEZVPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IkFraGlsIiwiZmFtaWx5X25hbWUiOiJBcmp1biIsImxvY2FsZSI6ImVuLUdCIiwiaWF0IjoxNTkzOTYwMzU4LCJleHAiOjE1OTM5NjM5NTgsImp0aSI6IjBiYWJmZTU5N2RlZjA2ZWEzZTAyZDNjMWZhMTA1MzNhYWJhNTcxYWQifQ.FoH2zew0pxiWzHhPcJFdoXfsShcfODCNaDNB_fUFNMcs8v7hjFKqR0vuOBCxg1wbZyGKAf42BVKRtVFsbrqJ6rXaXgibHLjr-GJbYPq83rz3skRJ_v2DdeKvGh3RPa2Lhld8v6yDQ9qo60tq7Y-ZWVvNjt49l_vrUkAd6pb0pMuFYiDoTlSbIkt86WLBxnzoqdSwV5-Yc3c45SMXIzSAyPrpjAApEgkmYIcvaOBZoN--oFpYyJRaOlzXOEMScGPPc0cZIe_NdvFEZ9h1jAAhVCDZ_Arn3vXcpR5zh0LOhMp34ullwRIY9h1zXXAI5NrVOUAC2umI9xCWW_d0I7j9Gw';
 
 // authService.verify(token).catch(console.error);
@@ -41,6 +50,7 @@ app.use(session({
     secret: 'feefo akhil p arjun',
     resave: false,
     saveUninitialized: false,
+    rolling: true,
     cookie: {
         expires: 600000,
         sameSite: true
@@ -50,10 +60,8 @@ app.use(session({
 
 sessionCheck = (req, res, next) => {
     if (req.session.user) {
-        console.log('User Already Signed In');
         next();
     } else {
-        console.log('User Not Logged In');
         res.sendStatus(401);
     }
 };
@@ -72,10 +80,10 @@ app.get('/getsurveyqns/:forKey', (req, res) => {
     Object.keys(response).forEach(key => {
         const configList = response[key.replace('@','').replace('.','')].list;
         configList.forEach(config => {
-            if (config.feedbackFor === req.params.forKey) {
+            if (config.sharableURL === req.params.forKey) {
                 configFound = true;
                 let qns = editJSONFile(`${__dirname}/feedback-db/qnMap.json`);
-                config.qns = qns.get(`${req.params.forKey}qns`);
+                config.qns = qns.get(`${config.feedbackFor}qns`);
                 res.send(config);
             }
         });
@@ -98,7 +106,8 @@ app.get('/getconfig/:forKey', sessionCheck, (req, res) => {
         if (config.feedbackFor === req.params.forKey) {
             configFound = true;
             let qns = editJSONFile(`${__dirname}/feedback-db/qnMap.json`);
-            config.qns = qns.get(`${req.params.forKey}qns`);
+            let qnList = qns.get(`${req.params.forKey}qns`);
+            config.qns = qnList ? qnList : [];
             res.send(config);
         }
     });
@@ -158,6 +167,55 @@ app.post('/submitFeedback', (req, res) => {
     res.send({
         "status": "SUCCESS",
         "feedback_id": id
+    });
+});
+
+app.post('/save-qn', sessionCheck, (req, res) => {
+    let feedbackConfig = editJSONFile(`${__dirname}/feedback_config.json`);
+    let qnMap = editJSONFile(`${__dirname}/feedback-db/qnMap.json`);
+    let surveyInputQuestionare = req.body;
+    surveyInputQuestionare.replyCount = 0;
+    surveyInputQuestionare.version = 'v_'+Date.now();
+    let inputFeedbackID = surveyInputQuestionare.feedbackFor;
+    let oldId;
+    if (inputFeedbackID) {
+        oldId = inputFeedbackID;
+        let qnmapObj = qnMap.toObject();
+        delete qnmapObj[inputFeedbackID+'qns'];
+        qnMap.write(JSON.stringify(qnmapObj));
+    }
+    if (!surveyInputQuestionare.sharableURL) {
+        surveyInputQuestionare.sharableURL = genUID().replace(/_/g, '-');
+    }
+    inputFeedbackID = genUID();
+    surveyInputQuestionare.feedbackFor = inputFeedbackID;
+    qnMap.set(inputFeedbackID+'qns', surveyInputQuestionare.qns);
+    surveyInputQuestionare.qns = inputFeedbackID+'qns';
+    surveyInputQuestionare.userid = req.session.user.email;
+    config = feedbackConfig.get(req.session.user.email.replace('@','').replace('.',''));
+    if (!config) {
+        config = {
+            list: []
+        };
+    }
+    let oldSurveyPlaceholderFound = false;
+    config.list.forEach((surveyForm, surveyIndex) => {
+        if (surveyForm.feedbackFor === oldId) {
+            Object.keys(surveyForm).forEach(surveyformkey => {
+                oldSurveyPlaceholderFound = true;
+                surveyForm[surveyformkey] = surveyInputQuestionare[surveyformkey];
+            });
+        }
+    });
+    if (!oldSurveyPlaceholderFound) {
+        config.list.push(surveyInputQuestionare);
+    }
+    feedbackConfig.set(req.session.user.email.replace('@','').replace('.',''), config);
+    qnMap.save();
+    feedbackConfig.save();
+    res.send({
+        "status": "SUCCESS",
+        "feedback_id_for": inputFeedbackID
     });
 });
 
