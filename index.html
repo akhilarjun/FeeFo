@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./css/tailwind.min.css">
     <link rel="stylesheet" href="./css/style.css">
 </head>
-<body>
+<body class="flex flex-col h-screen">
   <!--Google Sign In : Start-->
   <div class="g-signin2" data-onsuccess="onSignIn"></div>
   <!--Google Sign In : End-->
@@ -18,7 +18,7 @@
       <div class="m-auto loader-strip"></div>
     </div>
   </section>
-  <header class="text-gray-700 body-font">
+  <header class="text-gray-700 body-font flex-shrink-0">
     <div class="container mx-auto flex flex-wrap p-5 flex-row items-center">
       <a class="flex items-center text-gray-900 mb-0" href="/">
         <img src="./img/feefo_logo_wo_text.png" alt="" class="w-10 h-10 rounded-full">
@@ -40,8 +40,8 @@
       </button>
     </div>
   </header>
-  <div router-outlet></div>
-  <footer class="text-gray-700 body-font">
+  <div router-outlet class=" flex-grow"></div>
+  <footer class="text-gray-700 body-font flex-shrink-0">
     <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
         <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
         <img src="./img/feefo.png" alt="" class="hidden md:inline-block md:w-20 md:h-20 rounded-full">

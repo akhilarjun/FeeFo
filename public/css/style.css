@@ -87,7 +87,7 @@ html:after {
     }
 }
 
-.full-page-height {
+/* .full-page-height {
     min-height: calc(100vh - 224px);
 }
 
@@ -99,7 +99,7 @@ html:after {
     .full-page-height {
         min-height: calc(100vh - 310px);
     }
-}
+} */
 
 @media (min-width: 1024px){
     .lg-grid-mosaic {

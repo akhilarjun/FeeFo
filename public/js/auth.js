@@ -1,6 +1,6 @@
 const signInBtn = document.getElementById('sign-in-btn');
 const signOutBtn = document.getElementById('sign-out-btn');
-document.querySelector('body').classList = 'not-logged-in';
+document.querySelector('body').classList += ' not-logged-in';
 signOutBtn.style.display = 'none';
 
 function onSignIn(googleUser) {
@@ -16,7 +16,10 @@ function onSignIn(googleUser) {
             // signOutBtn.querySelector('span').textContent = r.name;
             signOutBtn.querySelector('img').src = r.profileImgUrl;
             signOutBtn.style.display = 'inline-flex';
-            document.querySelector('body').classList = 'logged-in';
+            bodyClass = document.querySelector('body').classList;
+            bodyClass = (bodyClass+'').replace(/ not-logged-in/g, '');
+            bodyClass += ' logged-in';
+            document.querySelector('body').classList = bodyClass;
         });
     });
 }
@@ -28,7 +31,10 @@ function signOut() {
         signInBtn.style.display = 'inline-flex';
         fetch('/sign-out');
         $Router.hash('#home');
-        document.querySelector('body').classList = 'not-logged-in';
+        bodyClass = document.querySelector('body').classList;
+        bodyClass = (bodyClass+'').replace(/ logged-in/g, '');
+        bodyClass += ' not-logged-in';
+        document.querySelector('body').classList = bodyClass;
     });
 }
 function singInWithGoogle() {
