@@ -107,5 +107,48 @@
         "1"
       ]
     }
+  ],
+  "93n7_op1m_4e98qns": [
+    {
+      "statement": "\n                        Will you recommend this to your peers",
+      "optionsList": [
+        "Stongly Agree",
+        "Agree",
+        "Neutral",
+        "Disagree",
+        "Stongly Disagree"
+      ],
+      "requireValidation": true,
+      "type": "one"
+    },
+    {
+      "statement": "\n                        Will you recommend this to your peers",
+      "optionsList": [
+        "Stongly Agree",
+        "Agree",
+        "Neutral",
+        "Disagree",
+        "Stongly Disagree"
+      ],
+      "requireValidation": true,
+      "type": "one"
+    },
+    {
+      "statement": "What is Your name",
+      "optionsList": [],
+      "requireValidation": true,
+      "type": "text"
+    },
+    {
+      "statement": "Name your fav module",
+      "optionsList": [
+        "EC2",
+        "S3",
+        "Lambda",
+        "Dynamo DB"
+      ],
+      "requireValidation": true,
+      "type": "many"
+    }
   ]
 }
