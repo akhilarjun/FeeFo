@@ -48,7 +48,7 @@ app.use(session({
     saveUninitialized: false,
     rolling: true,
     cookie: {
-        expires: 600000,
+        expires: 60000*5,
         sameSite: true
     },
     name: cookieId

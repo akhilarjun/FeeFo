@@ -1,12 +1,4 @@
 {
-  "9ay6_ggkq_ud2xqns": [
-    {
-      "statement": "\n                        How you Doing!",
-      "optionsList": [],
-      "requireValidation": true,
-      "type": "text"
-    }
-  ],
   "5h4y_ke8q_3j2gqns": [
     {
       "statement": "Your Name",
@@ -149,6 +141,29 @@
       ],
       "requireValidation": true,
       "type": "many"
+    }
+  ],
+  "3zkf_jvh7_zxzxqns": [
+    {
+      "statement": "How you Doing!",
+      "optionsList": [],
+      "requireValidation": true,
+      "type": "text"
+    },
+    {
+      "statement": "How you Doing!",
+      "optionsList": [
+        "awesome",
+        "Bleh"
+      ],
+      "requireValidation": true,
+      "type": "one"
+    },
+    {
+      "statement": "This is cool! Yes?",
+      "optionsList": [],
+      "requireValidation": false,
+      "type": "text"
     }
   ]
 }

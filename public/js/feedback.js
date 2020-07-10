@@ -217,7 +217,8 @@ $Router.config([
             }
 
             copySurveyQn = (num) => {
-                const copiedQn = Array.from(qnsList)[num-1];
+                const toCopyQn = Array.from(qnsList)[num-1];
+                const copiedQn = JSON.parse(JSON.stringify(toCopyQn));
                 qnsList.push(copiedQn);
                 paintEditForm(qnsList, surveyQnHolder);
             }
@@ -311,7 +312,7 @@ $Router.config([
         if (ap === 'feedback') {
             const errorMsgHolder = document.getElementById('error-msgs');
             const submitBtn = document.getElementById('submit_button');
-            let version, totalQnsLength = 0;
+            let version, totalQnsLength = 0, mandatoryQns = 0;
             document.querySelectorAll('[ data-not-needed]').forEach(el => {
                 el.dataset.notNeeded = true;
             })
@@ -355,8 +356,8 @@ $Router.config([
                         answeredQns.push(ans.split('_')[1]);
                     }
                 });
-                if(answeredQns.length < totalQnsLength) {
-                    throw(`All ${totalQnsLength} questions are mandatory`)
+                if(answeredQns.length < mandatoryQns) {
+                    throw(`Questions marked with * are mandatory`)
                 }
             }
 
@@ -383,6 +384,7 @@ $Router.config([
             const getQnAndOptionsList = (qnObj, index) => {
                 const holderDiv = Templates.createEl('', 'md:mb-4');
                 let qn = qnObj.statement;
+                qnObj.requireValidation && (qn += ' *');
                 let optionsList = qnObj.optionsList;
                 // Getting Qns Printed
                 const qnDiv = Templates.createEl('div', 'pl-1 pr-4 pt-3 pb-0 md:pb-1 tracking-wider font-medium text-gray-900');
@@ -472,6 +474,10 @@ $Router.config([
                 document.title = res.name + ' | Survey from FeeFo';
                 // populating Feedback questions
                 res.qns && (totalQnsLength = res.qns.length);
+
+                res.qns.forEach(qn => {
+                    qn.requireValidation && mandatoryQns++;
+                });
             
                 if (res.needAdditionalComemnts) {
                     additional_comments_holder.style.display = 'block';
