@@ -1,7 +1,7 @@
 # Feefo
-![NodeJs](https://img.shields.io/badge/Node.Js--grey?style=flat-square&logo=node.js)
-![Heroku](https://img.shields.io/badge/Heroku--grey?style=flat-square&logo=heroku)
-![MongoDB](https://img.shields.io/badge/MongoDB--grey?style=flat-square&logo=mongoDb)
+![NodeJs](https://img.shields.io/badge/Node.Js-grey?style=flat-square&logo=node.js&logoColor=green&labelColor=black)
+![Heroku](https://img.shields.io/badge/Heroku-grey?style=flat-square&logo=heroku&logoColor=white&labelColor=black)
+![MongoDB](https://img.shields.io/badge/MongoDB-grey?style=flat-square&logo=mongoDb&logoColor=green&labelColor=black)
 
 FeeFo is a easy to use and edit feedback survey form generator. Connect with your customers easily, using beautifully laid out forms. And create intuitive dashboards with a click of button.
 
