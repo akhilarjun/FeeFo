@@ -179,3 +179,26 @@ input.apple-switch:checked:after {
     width: 100%;
     background-color: #fff;
 }
+
+[copied]:after,[copied=false]:after{
+    background: rgba(0,0,0,0);
+    z-index: -10;
+    position: absolute;
+    top: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    content: "URL Copied";
+    color: #fff;
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    transition: all 500ms;
+}
+
+[copied=true]:after{
+    background: rgba(102,126,234,1);
+    z-index: 999;
+}

@@ -101,6 +101,20 @@ const closeModal = (id) => {
 
 }
 
+const copyLink = (link, id) => {
+    const toCopy = `${location.protocol}//${location.host}${link}`;
+    let input = document.createElement('input');
+    input.value = toCopy;
+    document.querySelector('body').appendChild(input);
+    input.select();
+    document.execCommand('copy');
+    document.querySelector('body').removeChild(input);
+    document.getElementById(id).setAttribute('copied', 'true');
+    setTimeout(() => {
+        document.getElementById(id).setAttribute('copied', 'false');
+    }, 1000);
+}
+
 window.addEventListener("resize", paintMosaic);
 
 const fetchFeedbackId = () => {
