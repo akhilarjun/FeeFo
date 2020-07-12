@@ -12,7 +12,7 @@ const User = require('./DB/models/User');
 const SurveyRouter = require('./API/Survey');
 const FeedbackRouter = require('./API/Feedback');
 const DashboardRouter = require('./API/Dashboard');
-let runTime, cookieId;
+let cookieId;
 require('dotenv').config();
 
 cookieId = process.env.COOKIE_SECRET
@@ -119,4 +119,4 @@ const runServer = async () => {
     return uri;
 }
 
-runServer(true);
+runServer();
