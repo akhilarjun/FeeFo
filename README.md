@@ -1,4 +1,8 @@
 # Feefo
+![NodeJs](https://img.shields.io/badge/Node.Js--grey?style=flat-square&logo=node.js)
+![Heroku](https://img.shields.io/badge/Heroku--grey?style=flat-square&logo=heroku)
+![MongoDB](https://img.shields.io/badge/MongoDB--grey?style=flat-square&logo=mongoDb)
+
 FeeFo is a easy to use and edit feedback survey form generator. Connect with your customers easily, using beautifully laid out forms. And create intuitive dashboards with a click of button.
 
 ## App Instalation
@@ -15,11 +19,17 @@ npm install
 4. Cookie Secret - This could be a random string too
 
 ### Dev Environment
+For local dev setup, run the following
 ```js
 npm run start-local
 ```
 
-Run ```start-local``` script to start a nodemon script, that will restart the server everytime there is a file-change. If there are any files that are to be excluded from nodemon watch list use ```ignore``` array in ```nodemon.json```
+This will restart the server everytime there is a file-change. 
+
+If there are any files that are to be excluded from nodemon watch list use ```ignore``` array in ```nodemon.json```
 
 ### Session Management
-Session is managed using ```session-file-store``` package. It is a flat-file based session store.
+Session is managed using [```session-file-store```](https://www.npmjs.com/package/session-file-store) package. It is a flat-file based session store.
+
+### Deployment Status
+![Heroku](https://heroku-badge.herokuapp.com/?app=feefo&style=flat)
