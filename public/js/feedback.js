@@ -1,14 +1,14 @@
 const loaderPage = document.getElementById('loader_page');
-let feedbackForID, deleteSurveyQn, copySurveyQn, choseSurveyAnswerType, windowScrollingFn = () => {}, addOption, cancelOption, deleteOption;
+let feedbackForID, deleteSurveyQn, copySurveyQn, choseSurveyAnswerType, windowScrollingFn = () => { }, addOption, cancelOption, deleteOption;
 
 const showLoader = () => {
-    loaderPage.classList = (loaderPage.classList+'').replace('fade-out', '');
+    loaderPage.classList = (loaderPage.classList + '').replace('fade-out', '');
     loaderPage.style.display = 'block';
 }
 
 const hideLoader = () => {
     if ((loaderPage.classList + '').indexOf('fade-out') === -1) {
-        loaderPage.classList = loaderPage.classList+' fade-out';
+        loaderPage.classList = loaderPage.classList + ' fade-out';
         setTimeout(() => {
             loaderPage.style.display = 'none';
         }, 1000);
@@ -32,8 +32,8 @@ const paintMosaic = () => {
         const rowHeight = parseInt(window.getComputedStyle(gridWrapper).getPropertyValue('grid-auto-rows'));
         const gapHeight = parseInt(window.getComputedStyle(gridWrapper).getPropertyValue('gap'));
         document.querySelectorAll('.dashboardCard').forEach(item => {
-            const rowSpan = Math.ceil((item.querySelector('.dashboardContent').getBoundingClientRect().height+gapHeight)/(rowHeight+gapHeight));
-            item.style.gridRowEnd = 'span '+rowSpan;
+            const rowSpan = Math.ceil((item.querySelector('.dashboardContent').getBoundingClientRect().height + gapHeight) / (rowHeight + gapHeight));
+            item.style.gridRowEnd = 'span ' + rowSpan;
         });
     }
 }
@@ -54,12 +54,12 @@ const checkForErrors = (res) => {
 const paintEditForm = (qnsList, surveyQnHolder) => {
     surveyQnHolder.innerHTML = '';
     qnsList.forEach((qn, i) => {
-        const id = 'surveyQnFor'+i;
+        const id = 'surveyQnFor' + i;
         const survyQnCrdTemplate = Templates.EDIT_SURVEY_CARD;
         survyQnCrdTemplate.placeholders.qnContent = qn.statement;
         survyQnCrdTemplate.placeholders.answerType = qn.type;
         survyQnCrdTemplate.placeholders.id = id;
-        survyQnCrdTemplate.placeholders.qnNo = i+1;
+        survyQnCrdTemplate.placeholders.qnNo = i + 1;
         if (qn.type != 'text') {
             survyQnCrdTemplate.placeholders.surveyQnOptionsHidden = '';
         } else {
@@ -77,11 +77,11 @@ const paintEditForm = (qnsList, surveyQnHolder) => {
                 pillTemplate.placeholders.optn = option;
                 pillTemplate.placeholders.optnId = optionIndex;
                 pillTemplate.placeholders.qnId = i;
-                surveyQnCard.querySelector('#surveyQnOptionHolder'+id).append(Templates.compile(pillTemplate));
+                surveyQnCard.querySelector('#surveyQnOptionHolder' + id).append(Templates.compile(pillTemplate));
             });
             const addOptionPill = Templates.ADD_OPTION_PILL;
             addOptionPill.placeholders.id = i;
-            surveyQnCard.querySelector('#surveyQnOptionHolder'+id).append(Templates.compile(addOptionPill));
+            surveyQnCard.querySelector('#surveyQnOptionHolder' + id).append(Templates.compile(addOptionPill));
         }
         surveyQnHolder.append(surveyQnCard);
     });
@@ -110,13 +110,13 @@ const fetchFeedbackId = () => {
 }
 
 $Router.config([
-    {path:'home',templateUrl:'partial/home.html'},
-    {path:'feedback',templateUrl:'partial/feedback.html'},
-    {path:'dashboard',templateUrl:'partial/dashboard.html'},
-    {path:'thank-you',templateUrl:'partial/thankyou.html'},
-    {path:'surveys',templateUrl:'partial/surveys.html'},
-    {path:'edit',templateUrl:'partial/edit.html'},
-    {otherwise:'home'}
+    { path: 'home', templateUrl: 'partial/home.html' },
+    { path: 'feedback', templateUrl: 'partial/feedback.html' },
+    { path: 'dashboard', templateUrl: 'partial/dashboard.html' },
+    { path: 'thank-you', templateUrl: 'partial/thankyou.html' },
+    { path: 'surveys', templateUrl: 'partial/surveys.html' },
+    { path: 'edit', templateUrl: 'partial/edit.html' },
+    { otherwise: 'home' }
 ], {
     activateLinks: false,
     defaultLinkClass: 'mr-5 hover:text-gray-900 nav',
@@ -127,14 +127,14 @@ $Router.config([
         //checkUserSignedIn();
         fetchFeedbackId();
         showLoader();
-        windowScrollingFn = () => {}
+        windowScrollingFn = () => { }
         window.onscroll = windowScrollingFn;
     },
     afterRouteChange: (ap) => {
         document.querySelectorAll('a.nav').forEach(a => {
-            a.classList = (a.classList+'').replace('active', '');
+            a.classList = (a.classList + '').replace('active', '');
         });
-        let activeLink = document.querySelector('a[href="#'+ap+'"]');
+        let activeLink = document.querySelector('a[href="#' + ap + '"]');
         activeLink && (activeLink.classList += ' active');
 
         if (ap === 'home') {
@@ -152,13 +152,15 @@ $Router.config([
                 const searchQuery = e.target.value;
                 surveyList.forEach((survey, i) => {
                     if (survey.name.toLowerCase().indexOf(searchQuery.toLowerCase()) === -1 && searchQuery.length > 2) {
-                        document.getElementById(`survey${i+1}`).style.display = 'none';
+                        document.getElementById(`survey${i + 1}`).style.display = 'none';
                     } else {
-                        document.getElementById(`survey${i+1}`).style.display = 'block';
+                        document.getElementById(`survey${i + 1}`).style.display = 'block';
                     }
                 });
             });
-            fetch('/getconfig').then(checkForErrors).then(res => {
+
+            // fetch('/getconfig').then(checkForErrors).then(res => {
+            fetch('/survey').then(checkForErrors).then(res => {
                 return res.json();
             }).then(res => {
                 surveyList = res;
@@ -166,9 +168,9 @@ $Router.config([
                     const SURVEY_CARD = Templates.SURVEY_CARD;
                     SURVEY_CARD.placeholders.title = survey.name;
                     SURVEY_CARD.placeholders.noOfReplies = survey.replyCount;
-                    SURVEY_CARD.placeholders.id = survey.feedbackFor;
+                    SURVEY_CARD.placeholders.id = survey._id;
                     SURVEY_CARD.placeholders.formurl = survey.sharableURL;
-                    SURVEY_CARD.placeholders.surveyno = i+1;
+                    SURVEY_CARD.placeholders.surveyno = i + 1;
                     surveyContainer.append(Templates.compile(SURVEY_CARD));
                 });
                 hideLoader();
@@ -180,7 +182,7 @@ $Router.config([
         if (ap === 'edit') {
 
             windowScrollingFn = () => {
-                if(!isInViewport(document.getElementById('footer-up'))) {
+                if (!isInViewport(document.getElementById('footer-up'))) {
                     document.getElementById('footer-edit-survey').classList = 'sticky-footer';
                 } else {
                     document.getElementById('footer-edit-survey').classList = '';
@@ -189,7 +191,7 @@ $Router.config([
             window.onscroll = windowScrollingFn;
 
             const surveyQnHolder = document.getElementById('edit_survey_qns');
-            let qnsList, surveyForm = {};
+            let qnsList, surveyForm = {}, existingSurvey = false;
 
             const populateSurveyName = () => {
                 const value = document.getElementById('edit_survey_name').textContent;
@@ -201,7 +203,7 @@ $Router.config([
                 document.querySelectorAll('[survey-qn-statement-for]').forEach((el, index) => {
                     let pushValue = (e) => {
                         let questionNum = e.target.getAttribute('survey-qn-statement-for');
-                        qnsList[Number(questionNum)-1].statement = e.target.textContent;
+                        qnsList[Number(questionNum) - 1].statement = e.target.textContent;
                     }
                     el.addEventListener('blur', pushValue)
                     el.addEventListener('keyup', pushValue)
@@ -212,12 +214,12 @@ $Router.config([
             document.getElementById('edit_survey_name').addEventListener('blur', populateSurveyName);
 
             deleteSurveyQn = (num) => {
-                qnsList.splice(num-1, 1);
+                qnsList.splice(num - 1, 1);
                 paintEditForm(qnsList, surveyQnHolder);
             }
 
             copySurveyQn = (num) => {
-                const toCopyQn = Array.from(qnsList)[num-1];
+                const toCopyQn = Array.from(qnsList)[num - 1];
                 const copiedQn = JSON.parse(JSON.stringify(toCopyQn));
                 qnsList.push(copiedQn);
                 paintEditForm(qnsList, surveyQnHolder);
@@ -225,9 +227,9 @@ $Router.config([
 
             choseSurveyAnswerType = (type) => {
                 const qnNo = document.getElementById('editTypeModal').dataset.actionFor;
-                qnsList[Number(qnNo)-1].type = type;
+                qnsList[Number(qnNo) - 1].type = type;
                 if (type === 'text') {
-                    qnsList[Number(qnNo)-1].optionsList = [];
+                    qnsList[Number(qnNo) - 1].optionsList = [];
                 }
                 paintEditForm(qnsList, surveyQnHolder);
                 closeModal('editTypeModal');
@@ -253,7 +255,7 @@ $Router.config([
             }
 
             changeReqdValidation = (qnNo, e) => {
-                qnsList[Number(qnNo)-1].requireValidation = e.checked;
+                qnsList[Number(qnNo) - 1].requireValidation = e.checked;
             }
 
             addQnToList = () => {
@@ -265,13 +267,14 @@ $Router.config([
                 }
                 qnsList.push(newQn);
                 paintEditForm(qnsList, surveyQnHolder);
-                document.getElementById('QnNo'+qnsList.length).scrollIntoView();
-                document.getElementById('QnNo'+qnsList.length+'Statement').focus();
+                document.getElementById('QnNo' + qnsList.length).scrollIntoView();
+                document.getElementById('QnNo' + qnsList.length + 'Statement').focus();
             }
 
             saveSurvey = () => {
                 surveyForm.qns = qnsList;
-                fetch('/save-qn', {
+                let url = existingSurvey ? '/survey/' + feedbackForID : '/survey';
+                fetch(url, {
                     method: 'post',
                     body: JSON.stringify(surveyForm),
                     headers: {
@@ -287,7 +290,8 @@ $Router.config([
             }
 
             if (feedbackForID) {
-                fetch('/getconfig/'+feedbackForID).then(checkForErrors).then(res => {
+                existingSurvey = true;
+                fetch('/survey/' + feedbackForID).then(checkForErrors).then(res => {
                     return res.json();
                 }).then(res => {
                     document.title = res.name + ' | Edit Form from FeeFo';
@@ -315,7 +319,7 @@ $Router.config([
             let version, totalQnsLength = 0, mandatoryQns = 0;
             document.querySelectorAll('[ data-not-needed]').forEach(el => {
                 el.dataset.notNeeded = true;
-            })
+            });
 
             let answers = {
                 feedback: [],
@@ -335,16 +339,16 @@ $Router.config([
 
             const generateFeedbackClob = () => {
                 answers.feedback = [];
-                for (let i = 1; i < totalQnsLength+1; i++) {
-                    document.querySelectorAll('input[name=qn_'+i+']').forEach(input => {
+                for (let i = 1; i < totalQnsLength + 1; i++) {
+                    document.querySelectorAll('input[name=qn_' + i + ']').forEach(input => {
                         input.checked && answers.feedback.push(input.id);
                         if (input.type === 'text') {
-                            input.value && answers.feedback.push('qn_'+i+'_'+input.value);
+                            input.value && answers.feedback.push('qn_' + i + '_' + input.value);
                         }
                     })
                 }
                 // adding additional comments to the answers object
-                answers.additionalComments = document.querySelector('textarea[name=additional_comments]').value; 
+                answers.additionalComments = document.querySelector('textarea[name=additional_comments]').value;
             }
 
             const validateFields = () => {
@@ -352,12 +356,12 @@ $Router.config([
                 generateFeedbackClob();
                 const answeredQns = [];
                 answers.feedback.forEach(ans => {
-                    if(!answeredQns.includes(ans.split('_')[1])) {
+                    if (!answeredQns.includes(ans.split('_')[1])) {
                         answeredQns.push(ans.split('_')[1]);
                     }
                 });
-                if(answeredQns.length < mandatoryQns) {
-                    throw(`Questions marked with * are mandatory`)
+                if (answeredQns.length < mandatoryQns) {
+                    throw (`Questions marked with * are mandatory`)
                 }
             }
 
@@ -396,13 +400,13 @@ $Router.config([
                 optionsList.forEach((optn, optn_index) => {
                     const optionDiv = Templates.createEl('div', 'block md:inline-block md:mr-5 my-2 md:my-0');
                     const label = Templates.createEl('label');
-                    const id = "qn_"+index+"_"+(Number(optn_index)+1);
+                    const id = "qn_" + index + "_" + (Number(optn_index) + 1);
                     label.htmlFor = id;
                     const input = Templates.createEl('input', 'mr-1');
                     input.id = id;
                     input.type = ipType.type;
                     ipType.reqValue && (input.value = id);
-                    input.name = "qn_"+index;
+                    input.name = "qn_" + index;
                     label.append(input);
                     label.append(optn);
                     optionDiv.append(label);
@@ -410,11 +414,11 @@ $Router.config([
                 });
                 if (ipType.type === 'text') {
                     const optionDiv = Templates.createEl('div', 'block');
-                    const id = "qn_"+index+"_1";
+                    const id = "qn_" + index + "_1";
                     const input = Templates.createEl('input', 'w-full md:w-1/2 py-2 px-1 border-b-2 boder-gray-400');
                     input.id = id;
                     input.type = ipType.type;
-                    input.name = "qn_"+index;
+                    input.name = "qn_" + index;
                     input.placeholder = 'Please Enter Value';
                     input.autocomplete = 'off';
                     optionDiv.append(input);
@@ -427,7 +431,7 @@ $Router.config([
             errorMsgHolder.style.display = 'none';
             submitBtn.addEventListener('click', () => {
                 validateFields();
-                fetch('/submitFeedback', {
+                fetch('/feedback/' + feedbackForID, {
                     method: 'post',
                     body: JSON.stringify(answers),
                     headers: {
@@ -436,29 +440,29 @@ $Router.config([
                 }).then(resp => {
                     resp.json().then(r => {
                         if (r.status == 'SUCCESS') {
-                            localStorage.setItem('feedback_version', version);
-                            localStorage.setItem('feedback_id', r.feedback_id);
+                            localStorage.setItem('feedback_for', r.data.feedbackFor);
                             $Router.hash('#thank-you');
                         }
                     })
                 });
             });
 
-            fetch('/getsurveyqns/'+feedbackForID).then(checkForErrors).then(res => {
+            fetch('/feedback/' + feedbackForID).then(checkForErrors).then(res => {
+                // fetch('/getsurveyqns/'+feedbackForID).then(checkForErrors).then(res => {
                 return res.json();
             }).then(res => {
-                let submittedVersion = localStorage.getItem('feedback_version');
+                let submittedVersion = localStorage.getItem('feedback_for');
                 let courseNameHolder = document.getElementById('course_name');
                 let courseNameTableHolder = document.getElementById('course_name_table');
                 let courseDateHolder = document.getElementById('course_date');
                 let courseTrainersHolder = document.getElementById('course_trainers');
                 let extraInfoHolder = document.getElementById('extra-info-holder');
-                
+
                 const additional_comments_holder = document.getElementById('additional_comments_holder');
 
                 //new home-view
                 const feedbackQnHolder = document.getElementById('feedbackQnHolder');
-                version = res.version;
+                version = res._id;
                 if (submittedVersion === version && res.once) {
                     $Router.go('#thank-you');
                 }
@@ -467,7 +471,7 @@ $Router.config([
                 answers.creator = res.userid;
                 courseNameHolder.textContent = res.name;
                 courseNameTableHolder.textContent = res.name;
-                
+
                 courseDateHolder.textContent = res.date;
                 courseTrainersHolder.textContent = res.trainers;
 
@@ -478,7 +482,7 @@ $Router.config([
                 res.qns.forEach(qn => {
                     qn.requireValidation && mandatoryQns++;
                 });
-            
+
                 if (res.needAdditionalComemnts) {
                     additional_comments_holder.style.display = 'block';
                 }
@@ -486,15 +490,15 @@ $Router.config([
                 if (res.showExtraInfoTable) {
                     extraInfoHolder.style.display = 'block'
                 }
-            
+
                 res.qns.reverse().forEach((qn, index) => {
                     feedbackQnHolder.prepend(getQnAndOptionsList(qn, (res.qns.length - index)));
                 });
-            
+
                 hideLoader();
             });
         }
-        
+
         if (ap === 'dashboard') {
             let feedbackQnsList = [];
             // let optionsList = [];
@@ -506,24 +510,24 @@ $Router.config([
                 const searchQuery = e.target.value;
                 feedbackQnsList.forEach((qn, i) => {
                     if (qn.statement.toLowerCase().indexOf(searchQuery.toLowerCase()) === -1 && searchQuery.length > 2) {
-                        document.getElementById(`feedbackcard${i+1}`).style.display = 'none';
+                        document.getElementById(`feedbackcard${i + 1}`).style.display = 'none';
                     } else {
-                        document.getElementById(`feedbackcard${i+1}`).style.display = 'block';
+                        document.getElementById(`feedbackcard${i + 1}`).style.display = 'block';
                     }
                     if (searchQuery.length > 2) {
                         qn.optionsList.forEach(optn => {
                             if (optn.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1) {
-                                document.getElementById(`feedbackcard${i+1}`).style.display = 'block';
+                                document.getElementById(`feedbackcard${i + 1}`).style.display = 'block';
                             }
                         });
                     }
                 });
             });
 
-            fetch('/getresponses/'+feedbackForID).then(checkForErrors).then(res => {
+            fetch('/dashboard/' + feedbackForID).then(checkForErrors).then(res => {
                 return res.json();
             }).then(feedbacks => {
-                fetch('/getconfig/'+feedbackForID).then(checkForErrors).then(res => {
+                fetch('/survey/' + feedbackForID).then(checkForErrors).then(res => {
                     return res.json();
                 }).then(res => {
                     document.title = res.name + ' | Dashboard from FeeFo';
@@ -547,8 +551,8 @@ $Router.config([
                                     count: 0
                                 };
                             }
-                            if (!answeredQn.fbNo.includes('fb'+(feedbackNo+1)+tokens[1])) {
-                                answeredQn.fbNo.push('fb'+(feedbackNo+1)+tokens[1]);
+                            if (!answeredQn.fbNo.includes('fb' + (feedbackNo + 1) + tokens[1])) {
+                                answeredQn.fbNo.push('fb' + (feedbackNo + 1) + tokens[1]);
                                 answeredQn.count++;
                             }
                             votes.push(tokens[2]);
@@ -559,16 +563,16 @@ $Router.config([
                     Object.keys(qnsMap).forEach(qnNo => {
                         let card = Templates.DASHBOARD_CARD;
                         card.placeholders.qnNo = qnNo;
-                        card.placeholders.qn = feedbackQnsList[qnNo-1].statement;
+                        card.placeholders.qn = feedbackQnsList[qnNo - 1].statement;
                         card.placeholders.noOfReplies = answeredQnsMapForReplyCount[qnNo].count;
                         card.placeholders.mainId = `feedbackcard${qnNo}`;
                         card.placeholders.cardId = `feedbackcardHolder${qnNo}`;
                         let compiledCard = Templates.compile(card);
-                        let feedbackHolder = compiledCard.querySelector('#'+card.placeholders.cardId);
-                        let optionsList = feedbackQnsList[qnNo-1].optionsList;
+                        let feedbackHolder = compiledCard.querySelector('#' + card.placeholders.cardId);
+                        let optionsList = feedbackQnsList[qnNo - 1].optionsList;
                         // pills
                         optionsList.forEach((optn, index) => {
-                            let optionNumber = index+1;
+                            let optionNumber = index + 1;
                             let optionCount = 0;
                             qnsMap[qnNo].forEach(vote => {
                                 vote == optionNumber ? optionCount++ : true;
@@ -580,17 +584,17 @@ $Router.config([
                             feedbackHolder.append(Templates.compile(pill));
                         });
                         let seperatorDiv = Templates.createEl('div', 'mt-5');
-                        
+
                         // bar-graph
                         optionsList.forEach((optn, index) => {
-                            let optionNumber = index+1;
+                            let optionNumber = index + 1;
                             let optionCount = 0;
                             qnsMap[qnNo].forEach(vote => {
                                 vote == optionNumber ? optionCount++ : true;
                             });
                             let bar = Templates.BAR_GRAPH;
                             bar.placeholders.color = colorList[index];
-                            bar.placeholders.width = optionCount/qnsMap[qnNo].length * 100;
+                            bar.placeholders.width = optionCount / qnsMap[qnNo].length * 100;
                             seperatorDiv.append(Templates.compile(bar));
                         });
                         feedbackHolder.append(seperatorDiv);
@@ -601,8 +605,11 @@ $Router.config([
                 });
             });
         }
-        
+
         if (ap === 'thank-you') {
+            document.querySelectorAll('[ data-not-needed]').forEach(el => {
+                el.dataset.notNeeded = true;
+            });
             hideLoader();
         }
     }

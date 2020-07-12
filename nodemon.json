@@ -1,0 +1,3 @@
+{
+    "ignore": ["feedback-db/*.json","sessions/*.json"]
+}
