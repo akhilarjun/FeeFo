@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-signin-client_id" content="668014446614-es30fq9a3smq4b3qope65q1ahd9onpqn.apps.googleusercontent.com">
-    <title>FeeFo</title>
-    <!-- <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"> -->
-    <link rel="stylesheet" href="./css/tailwind.min.css">
-    <link rel="stylesheet" href="./css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-signin-client_id"
+    content="668014446614-es30fq9a3smq4b3qope65q1ahd9onpqn.apps.googleusercontent.com">
+  <title>FeeFo</title>
+  <!-- <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="./css/tailwind.min.css">
+  <link rel="stylesheet" href="./css/style.css">
 </head>
+
 <body class="flex flex-col h-screen">
   <!--Google Sign In : Start-->
   <div class="g-signin2" data-onsuccess="onSignIn"></div>
@@ -25,31 +28,35 @@
         <span class="ml-3 text-xl title-font font-medium hidden md:block">FeeFo</span>
         <span class="ml-2 text-gray-700 font-hairline hidden md:block">| Feedbacks made simple</span>
       </a>
-      <nav class="ml-auto flex flex-wrap items-center text-base justify-center" data-not-needed='false'>
+      <nav class="ml-auto mr-auto md:mr-0 flex flex-wrap items-center text-base justify-center" data-not-needed='false'>
         <a class="mr-5 hover:text-gray-900 nav" href="/#home">Home</a>
         <a class="mr-5 hover:text-gray-900 nav" href="/#surveys" need-login>My Surveys</a>
         <!-- <a class="mr-5 hover:text-gray-900 nav" href="#feedback">Give Feedback</a>
         <a class="mr-5 hover:text-gray-900 nav" href="#dashboard">Dashboard</a> -->
       </nav>
-      <button data-not-needed='false' id="sign-in-btn" onclick="singInWithGoogle()" class=" mr-5 inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-gray-300 rounded text-base mt-0">
+      <button data-not-needed='false' id="sign-in-btn" onclick="singInWithGoogle()"
+        class=" mr-5 inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-gray-300 rounded text-base mt-0">
         Login/ Sign Up
       </button>
-      <button  data-not-needed='false' id="sign-out-btn" onclick="signOut()" class="inline-flex items-center border-0 py-2 px-3 focus:outline-none bg-transparent hover:bg-gray-200 transition-all duration-300 rounded text-base mt-0">
+      <button data-not-needed='false' id="sign-out-btn" onclick="signOut()"
+        class="inline-flex items-center border-0 py-2 px-3 focus:outline-none bg-transparent rounded-full bg-red-400 text-white text-base mt-0">
+        <span class="mr-2">Log Out</span>
         <img src="" alt="" class="w-8 h-8 rounded-full">
-        <span></span>
       </button>
     </div>
   </header>
   <div router-outlet class=" flex-grow"></div>
   <footer class="text-gray-700 body-font flex-shrink-0">
     <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
-        <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
+      <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
         <img src="./img/feefo.png" alt="" class="hidden md:inline-block md:w-20 md:h-20 rounded-full">
         <span class="ml-0 md:ml-3 text-xl">FeeFo</span>
-        </a>
-        <p class="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">Feedbacks Made Simple —
-        <a href="https://www.akhilarjun.com" class="text-gray-600 ml-1" rel="noopener noreferrer" target="_blank">@akhil</a>
-        </p>
+      </a>
+      <p class="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">Feedbacks
+        Made Simple —
+        <a href="https://www.akhilarjun.com" class="text-gray-600 ml-1" rel="noopener noreferrer"
+          target="_blank">@akhil</a>
+      </p>
     </div>
   </footer>
   <!-- <script src="https://cdn.jsdelivr.net/gh/akhilarjun/RouteNow@v1.2.2/js/route-now.min.js"></script> -->
@@ -59,4 +66,5 @@
   <script src="./js/templates.js"></script>
   <script src="./js/feedback.js"></script>
 </body>
+
 </html>

@@ -127,6 +127,10 @@ input:focus+.mg-glass{
     display: none !important;
 }
 
+.logged-in [dont-show-when-logged-in] {
+    display: none !important;
+}
+
 /** Google Sign in */
 .g-signin2 {
     display: none;
