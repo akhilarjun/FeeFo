@@ -23,7 +23,7 @@
   </section>
   <header class="text-gray-700 body-font flex-shrink-0">
     <div class="container mx-auto flex flex-wrap p-5 flex-row items-center">
-      <a class="flex items-center text-gray-900 mb-0" href="/">
+      <a class="flex items-center text-gray-900 mb-0 logo-brand" href="/">
         <img src="./img/feefo_logo_wo_text.png" alt="" class="w-10 h-10 rounded-full">
         <span class="ml-3 text-xl title-font font-medium hidden md:block">FeeFo</span>
         <span class="ml-2 text-gray-700 font-hairline hidden md:block">| Feedbacks made simple</span>
@@ -39,14 +39,14 @@
         dont-show-when-logged-in>
         Login/ Sign Up
       </button>
-      <div class="relative cursor-pointer" need-login>
+      <div class="relative cursor-pointer" need-login id="menu-wrapper-main">
         <div data-not-needed='false' id="sign-out-btn" onclick="togglemenu()"
           class="inline-flex items-center border-0 py-2 px-3 focus:outline-none bg-transparent rounded-full bg-red-400 text-white text-base mt-0 special-btn relative z-20">
-          <span class="mr-2">Log Out</span>
+          <span class="mr-2"></span>
           <img src="" alt="" class="w-8 h-8 rounded-full">
         </div>
-        <div class="absolute text-center w-full special-btn z-0 sign-out-drawer pt-5 text-white" id="sign-out-drawer">
-          <!-- <div class="p-2">Account</div> -->
+        <div class="absolute text-center w-full special-btn z-10 sign-out-drawer pt-5 text-white" id="sign-out-drawer">
+          <div class="p-2" data-theme='dark' onclick="setTheme(this)" id="theme-holder-menu">Dark Theme</div>
           <div class="p-2" onclick="signOut()">Sign Out</div>
         </div>
       </div>
@@ -55,7 +55,7 @@
   <div router-outlet class=" flex-grow"></div>
   <footer class="text-gray-700 body-font flex-shrink-0">
     <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
-      <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
+      <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900 logo-brand">
         <img src="./img/feefo.png" alt="" class="hidden md:inline-block md:w-20 md:h-20 rounded-full">
         <span class="ml-0 md:ml-3 text-xl">FeeFo</span>
       </a>
@@ -66,6 +66,7 @@
       </p>
     </div>
   </footer>
+  <script src='https://cdn.jsdelivr.net/gh/akhilarjun/detectOldBrowser.js@v1.0/js/detectOldBrowser.min.js'></script>
   <script src="https://cdn.jsdelivr.net/gh/akhilarjun/RouteNow@v1.2.2/js/route-now.min.js"></script>
   <!-- <script src="./js/route-now.min.js"></script> -->
   <script src="./js/auth.js"></script>

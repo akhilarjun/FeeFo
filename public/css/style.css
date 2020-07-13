@@ -12,6 +12,7 @@ textarea {
 
 html {
     scroll-behavior: smooth;
+    background: #fff;
 }
 
 html:after {
@@ -225,4 +226,31 @@ input.apple-switch:checked:after {
     outline: none;
     -ms-touch-action: manipulation;
     touch-action: manipulation;
+}
+
+nav a{
+    transition: all 400ms;
+}
+
+[browser=chrome] a:hover:not(.logo-brand) {
+    background: linear-gradient(to right,#ff4b4b,#ff9200);
+    color: #ff4b4b;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+html[transition=true]{
+    transition: all linear 800ms;
+}
+
+html[theme=dark]{
+    filter: invert(1) hue-rotate(180deg);
+}
+
+html[theme=dark] img{
+    filter: invert(1) hue-rotate(180deg);
+}
+
+html[theme=dark]:after {
+    content: none;
 }
