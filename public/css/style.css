@@ -202,3 +202,7 @@ input.apple-switch:checked:after {
     background: rgba(102,126,234,1);
     z-index: 999;
 }
+
+.special-btn{
+    background: linear-gradient(to left,#e43c3c,#b13db9);
+}
