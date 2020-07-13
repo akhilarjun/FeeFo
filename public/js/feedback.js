@@ -285,8 +285,15 @@ $Router.config([
                 document.getElementById('QnNo' + qnsList.length + 'Statement').focus();
             }
 
-            saveSurvey = () => {
-                surveyForm.qns = qnsList;
+            changeOnce = (e) => {
+                surveyForm.once = e.checked;
+            }
+
+            changeAddAdditionalComments = (e) => {
+                surveyForm.needAdditionalComments = e.checked;
+            }
+
+            publishSurvey = () => {
                 let url = existingSurvey ? '/survey/' + feedbackForID : '/survey';
                 fetch(url, {
                     method: 'post',
@@ -303,6 +310,11 @@ $Router.config([
                 });
             }
 
+            saveSurvey = () => {
+                surveyForm.qns = qnsList;
+                showModal('publishModal');
+            }
+
             if (feedbackForID) {
                 existingSurvey = true;
                 fetch('/survey/' + feedbackForID).then(checkForErrors).then(res => {
@@ -315,11 +327,13 @@ $Router.config([
                     document.getElementById('survey_name').href = `/?id=${feedbackForID}#edit`;
                     surveyForm = res;
                     qnsList = res.qns;
+                    res.replyCount ? document.getElementById('republishSurveyMsg').style.display = 'block' : document.getElementById('republishSurveyMsg').style.display = 'none';
                     paintEditForm(res.qns, surveyQnHolder);
                     windowScrollingFn();
                     hideLoader();
                 });
             } else {
+                document.getElementById('republishSurveyMsg').style.display = 'none';
                 hideLoader();
                 qnsList = [];
                 document.getElementById('survey_name').textContent = 'Survey Name';
@@ -497,7 +511,7 @@ $Router.config([
                     qn.requireValidation && mandatoryQns++;
                 });
 
-                if (res.needAdditionalComemnts) {
+                if (res.needAdditionalComments) {
                     additional_comments_holder.style.display = 'block';
                 }
 

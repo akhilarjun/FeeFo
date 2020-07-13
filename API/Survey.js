@@ -1,6 +1,7 @@
 const express = require('express');
 const Survey = require('../DB/models/Survey');
 const Questions = require('../DB/models/Questions');
+const Feedback = require('../DB/models/Feedback');
 const Message = require('./Messages');
 const router = express.Router();
 
@@ -48,7 +49,7 @@ router.post('/', async (req, res) => {
 router.post('/:surveyId', async (req, res) => {
     const reqSurvey = req.body;
     try {
-        const updatedSurvey = await Survey.updateOne({ _id: req.params.surveyId }, {
+        await Survey.updateOne({ _id: req.params.surveyId }, {
             $set: {
                 name: reqSurvey.name,
                 description: reqSurvey.description,
@@ -58,11 +59,12 @@ router.post('/:surveyId', async (req, res) => {
                 once: reqSurvey.once
             }
         });
-        const updatedQns = await Questions.updateOne({ qnForId: req.params.surveyId }, {
+        await Questions.updateOne({ qnForId: req.params.surveyId }, {
             $set: {
                 qns: reqSurvey.qns
             }
         });
+        await Feedback.deleteMany({ feedbackFor: req.params.surveyId });
         res.status(200).json(Message.OK('Updated Succesfully'));
     } catch (error) {
         res.status(500).json(error);
