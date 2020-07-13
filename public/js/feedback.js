@@ -1,15 +1,62 @@
 const loaderPage = document.getElementById('loader_page');
 let feedbackForID, deleteSurveyQn, copySurveyQn, choseSurveyAnswerType, windowScrollingFn = () => { }, addOption, cancelOption, deleteOption;
 
-const togglemenu = () => {
+if (!isBrowserOld()) {
+    console.info('Yipee! you have a awesome new browser!');
+    if (get_browser().name.toLowerCase().trim() === 'chrome') {
+        document.querySelector('body').setAttribute('browser', 'chrome');
+    }
+}
+
+const togglemenu = (overrirde) => {
     const sign_out_drawer = document.getElementById('sign-out-drawer');
     let classList = sign_out_drawer.classList;
-    if (classList.contains('show')) {
+    if (classList.contains('show') || overrirde) {
         classList = (classList + '').replace(/ show/g, '');
     } else {
         classList += ' show';
     }
     sign_out_drawer.classList = classList;
+}
+
+document.querySelector('body').addEventListener('click', (e) => {
+    const el1 = document.getElementById('menu-wrapper-main');
+    const el2 = document.getElementById('sign-out-btn');
+    const el3 = document.querySelector('#sign-out-btn span');
+    const el4 = document.querySelector('#sign-out-btn img');
+    switch (e.target) {
+        case el1:
+        case el2:
+        case el3:
+        case el4:
+            break;
+        default:
+            togglemenu(true);
+    }
+});
+
+const setLabelForTheme = () => {
+
+}
+
+const setTheme = (el, theme) => {
+    theme = theme || el.dataset.theme;
+    const html = document.querySelector('html');
+    html.setAttribute('theme', theme);
+    localStorage.setItem('theme', theme);
+    if (theme == 'light') {
+        document.getElementById('theme-holder-menu').dataset.theme = 'dark';
+        document.getElementById('theme-holder-menu').textContent = 'Dark Theme';
+    } else {
+        document.getElementById('theme-holder-menu').dataset.theme = 'light';
+        document.getElementById('theme-holder-menu').textContent = 'Light Theme';
+    }
+}
+
+if (localStorage.getItem('theme')) {
+    setTheme(null, localStorage.getItem('theme'));
+} else {
+    setTheme(null, 'light');
 }
 
 const showLoader = () => {
