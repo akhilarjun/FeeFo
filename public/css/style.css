@@ -204,5 +204,25 @@ input.apple-switch:checked:after {
 }
 
 .special-btn{
-    background: linear-gradient(to left,#e43c3c,#b13db9);
+    background: linear-gradient(to right,#fc8181,#fc8);
+}
+
+.sign-out-drawer{
+    top: 28px;
+    border-radius: 0 0 25px 25px;
+    transform: scaleY(0.1) scaleX(0.9);
+    transform-origin: top center;
+    transition: all linear 200ms;
+}
+
+.sign-out-drawer.show {
+    max-height: 500px;
+    transform: scaleY(1) scaleX(1);
+}
+
+*:focus,*:active {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
 }

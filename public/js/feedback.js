@@ -1,6 +1,17 @@
 const loaderPage = document.getElementById('loader_page');
 let feedbackForID, deleteSurveyQn, copySurveyQn, choseSurveyAnswerType, windowScrollingFn = () => { }, addOption, cancelOption, deleteOption;
 
+const togglemenu = () => {
+    const sign_out_drawer = document.getElementById('sign-out-drawer');
+    let classList = sign_out_drawer.classList;
+    if (classList.contains('show')) {
+        classList = (classList + '').replace(/ show/g, '');
+    } else {
+        classList += ' show';
+    }
+    sign_out_drawer.classList = classList;
+}
+
 const showLoader = () => {
     loaderPage.classList = (loaderPage.classList + '').replace('fade-out', '');
     loaderPage.style.display = 'block';

@@ -35,14 +35,21 @@
         <a class="mr-5 hover:text-gray-900 nav" href="#dashboard">Dashboard</a> -->
       </nav>
       <button data-not-needed='false' id="sign-in-btn" onclick="singInWithGoogle()"
-        class=" mr-5 inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-gray-300 rounded text-base mt-0">
+        class=" mr-5 inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-gray-300 rounded text-base mt-0"
+        dont-show-when-logged-in>
         Login/ Sign Up
       </button>
-      <button data-not-needed='false' id="sign-out-btn" onclick="signOut()"
-        class="inline-flex items-center border-0 py-2 px-3 focus:outline-none bg-transparent rounded-full bg-red-400 text-white text-base mt-0 special-btn">
-        <span class="mr-2">Log Out</span>
-        <img src="" alt="" class="w-8 h-8 rounded-full">
-      </button>
+      <div class="relative cursor-pointer" need-login>
+        <div data-not-needed='false' id="sign-out-btn" onclick="togglemenu()"
+          class="inline-flex items-center border-0 py-2 px-3 focus:outline-none bg-transparent rounded-full bg-red-400 text-white text-base mt-0 special-btn relative z-20">
+          <span class="mr-2">Log Out</span>
+          <img src="" alt="" class="w-8 h-8 rounded-full">
+        </div>
+        <div class="absolute text-center w-full special-btn z-0 sign-out-drawer pt-5 text-white" id="sign-out-drawer">
+          <!-- <div class="p-2">Account</div> -->
+          <div class="p-2" onclick="signOut()">Sign Out</div>
+        </div>
+      </div>
     </div>
   </header>
   <div router-outlet class=" flex-grow"></div>
