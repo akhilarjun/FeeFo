@@ -163,7 +163,7 @@ input.apple-switch:after {
     box-shadow: 2px 4px 6px rgba(0,0,0,0.2);
 }
 
-input.apple-switch:checked {
+input.apple-switch:checked, html[theme=dark] input.apple-switch:checked{
     box-shadow: inset 20px 0 0 0 #667eea;
     border-color: #667eea;
 }
@@ -253,4 +253,13 @@ html[theme=dark] img{
 
 html[theme=dark]:after {
     content: none;
+}
+
+html[theme=dark] input.apple-switch {
+    box-shadow: inset -20px 0 0 0 #677ee6;
+}
+
+.error-font{
+    font-size: 8rem;
+    color: royalblue;
 }

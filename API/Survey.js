@@ -14,7 +14,7 @@ router.get('/:surveyId', async (req, res) => {
     try {
         let surveyRes = await Survey.findById(req.params.surveyId);
         if (!surveyRes) {
-            res.status(409).json(Message.FAILURE('Survey Not Found'));
+            res.status(404).json(Message.FAILURE('Survey Not Found'));
         } else {
             surveyRes = JSON.parse(JSON.stringify(surveyRes));
             let qnsList = await Questions.findOne({ qnForId: surveyRes._id });
