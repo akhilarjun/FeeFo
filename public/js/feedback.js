@@ -1,5 +1,8 @@
 const loaderPage = document.getElementById('loader_page');
-let feedbackForID, deleteSurveyQn, copySurveyQn, choseSurveyAnswerType, windowScrollingFn = () => { }, addOption, cancelOption, deleteOption;
+let feedbackForID, deleteSurveyQn, copySurveyQn, choseSurveyAnswerType, windowScrollingFn = () => { }, addOption, cancelOption, deleteOption, errorObj = {};
+
+errorObj.status = 'Oh!';
+errorObj.statusText = 'Sorry about this';
 
 if (!isBrowserOld()) {
     console.info('Yipee! you have a awesome new browser!');
@@ -98,13 +101,10 @@ const paintMosaic = () => {
 
 const checkForErrors = (res) => {
     if (!res.ok) {
-        switch (res.status) {
-            case 401:
-            default:
-                $Router.hash('home');
-                throw Error("Kindly login to proceed");
-                break;
-        }
+        errorObj.status = res.status;
+        errorObj.statusText = res.statusText;
+        $Router.hash('error');
+        // throw Error("Error 401");
     }
     return res;
 }
@@ -188,6 +188,7 @@ $Router.config([
     { path: 'thank-you', templateUrl: 'partial/thankyou.html' },
     { path: 'surveys', templateUrl: 'partial/surveys.html' },
     { path: 'edit', templateUrl: 'partial/edit.html' },
+    { path: 'error', templateUrl: 'partial/error.html' },
     { otherwise: 'home' }
 ], {
     activateLinks: false,
@@ -214,6 +215,12 @@ $Router.config([
             const goToSurveys = () => {
                 console.log('hey');
             }
+            hideLoader();
+        }
+
+        if (ap === 'error') {
+            document.getElementById('error-status').textContent = errorObj.status;
+            document.getElementById('error-status-text').textContent = errorObj.statusText;
             hideLoader();
         }
 
@@ -344,7 +351,7 @@ $Router.config([
             }
 
             changeOnce = (e) => {
-                surveyForm.once = e.checked;
+                surveyForm.once = !e.checked;
             }
 
             changeAddAdditionalComments = (e) => {
@@ -386,6 +393,8 @@ $Router.config([
                     surveyForm = res;
                     qnsList = res.qns;
                     res.replyCount ? document.getElementById('republishSurveyMsg').style.display = 'block' : document.getElementById('republishSurveyMsg').style.display = 'none';
+                    document.getElementById('allow-multiple-responses-cb').checked = !res.once;
+                    document.getElementById('need-additional-comments-cb').checked = res.needAdditionalComments;
                     paintEditForm(res.qns, surveyQnHolder);
                     windowScrollingFn();
                     hideLoader();
