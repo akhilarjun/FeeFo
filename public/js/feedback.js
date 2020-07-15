@@ -208,6 +208,7 @@ $Router.config([
         }
 
         if (ap === 'error') {
+            document.title = 'Error : ' + errorObj.statusText + ' | Feefo';
             document.getElementById('error-status').textContent = errorObj.status;
             document.getElementById('error-status-text').textContent = errorObj.statusText;
             hideLoader();
