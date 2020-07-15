@@ -11,6 +11,15 @@ if (!isBrowserOld()) {
     }
 }
 
+const theme = localStorage.getItem('theme');
+if (theme == 'light') {
+    document.getElementById('theme-holder-menu').dataset.theme = 'dark';
+    document.getElementById('theme-holder-menu').textContent = 'Dark Theme';
+} else {
+    document.getElementById('theme-holder-menu').dataset.theme = 'light';
+    document.getElementById('theme-holder-menu').textContent = 'Light Theme';
+}
+
 const togglemenu = (overrirde) => {
     const sign_out_drawer = document.getElementById('sign-out-drawer');
     let classList = sign_out_drawer.classList;
@@ -40,26 +49,6 @@ document.querySelector('body').addEventListener('click', (e) => {
 
 const setLabelForTheme = () => {
 
-}
-
-const setTheme = (el, theme) => {
-    theme = theme || el.dataset.theme;
-    const html = document.querySelector('html');
-    html.setAttribute('theme', theme);
-    localStorage.setItem('theme', theme);
-    if (theme == 'light') {
-        document.getElementById('theme-holder-menu').dataset.theme = 'dark';
-        document.getElementById('theme-holder-menu').textContent = 'Dark Theme';
-    } else {
-        document.getElementById('theme-holder-menu').dataset.theme = 'light';
-        document.getElementById('theme-holder-menu').textContent = 'Light Theme';
-    }
-}
-
-if (localStorage.getItem('theme')) {
-    setTheme(null, localStorage.getItem('theme'));
-} else {
-    setTheme(null, 'light');
 }
 
 const showLoader = () => {
