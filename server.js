@@ -97,7 +97,7 @@ app.get('/sign-out', (req, res) => {
     });
 });
 
-app.get('/', (req, res) => {
+app.get('/*', (req, res) => {
     const destPath = path.join(__dirname, 'index.html');
     res.sendFile(destPath);
 });

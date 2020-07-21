@@ -133,7 +133,7 @@ html #loader_page .loader-strip:before {
           animation: rotate 10s linear 0s infinite forwards;
 }
 
-html label, html label input {
+html label, html label input, html a {
   cursor: pointer;
 }
 

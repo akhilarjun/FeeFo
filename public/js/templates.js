@@ -87,25 +87,25 @@
                 <div class="h-full bg-gray-200 hover:bg-gray-200 px-8 pt-16 pb-24 rounded-lg overflow-hidden text-center relative">
                     <h2 class="tracking-widest text-xs title-font font-medium text-gray-500 mb-1">SURVEY</h2>
                     <h1 class="title-font sm:text-2xl text-xl font-medium text-gray-900 mb-3">#title#</h1>
-                    <a class="text-indigo-500 inline-flex items-center cursor-pointer" href="/?id=#id##edit">Edit Survey
+                    <a class="text-indigo-500 inline-flex items-center cursor-pointer" href="/edit?id=#id#">Edit Survey
                         <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M5 12h14"></path>
                             <path d="M12 5l7 7-7 7"></path>
                         </svg>
                     </a>
                     <div class="text-center mt-2 leading-none flex justify-center absolute bottom-0 left-0 w-full py-4">
-                        <a target="_blank" href="/?id=#formurl##feedback" class="hover:bg-gray-500 hover:text-white rounded transition duration-300 text-gray-600 inline-flex items-center leading-none text-sm px-3 py-2 border-r-2 border-gray-300">
+                        <a target="_blank" href="/feedback?id=#formurl#" class="hover:bg-gray-500 hover:text-white rounded transition duration-300 text-gray-600 inline-flex items-center leading-none text-sm px-3 py-2 border-r-2 border-gray-300">
                             <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                 <circle cx="12" cy="12" r="3"></circle>
                             </svg>Preview
                         </a>
-                        <a href="/?id=#id##dashboard" class="hover:bg-gray-500 hover:text-white rounded transition duration-300 text-gray-600 inline-flex items-center leading-none text-sm px-3 py-2 border-r-2 border-gray-300">
+                        <a href="/dashboard?id=#id#" class="hover:bg-gray-500 hover:text-white rounded transition duration-300 text-gray-600 inline-flex items-center leading-none text-sm px-3 py-2 border-r-2 border-gray-300">
                             <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                 <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
                             </svg>#noOfReplies# Replies
                         </a>
-                        <a onclick="copyLink('/?id=#formurl##feedback', 'survey#surveyno#')" class="hover:bg-gray-500 hover:text-white rounded transition duration-300 text-gray-600 inline-flex items-center leading-none text-sm px-3 py-2 cursor-pointer">
+                        <a onclick="copyLink('/feedback?id=#formurl#', 'survey#surveyno#')" class="hover:bg-gray-500 hover:text-white rounded transition duration-300 text-gray-600 inline-flex items-center leading-none text-sm px-3 py-2 cursor-pointer">
                             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 mr-1" viewBox="0 0 24 24">
                                 <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
                             </svg>Share
