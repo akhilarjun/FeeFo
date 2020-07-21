@@ -359,7 +359,7 @@ $Router.config([
                 }).then(resp => {
                     resp.json().then(r => {
                         if (r.status == 'SUCCESS') {
-                            $Router.hash('#surveys');
+                            $Router.hash('surveys');
                         }
                     })
                 });
@@ -379,7 +379,7 @@ $Router.config([
                     document.getElementById('survey_name').textContent = res.name;
                     document.getElementById('survey_name').title = res.name;
                     document.getElementById('edit_survey_name').textContent = res.name;
-                    document.getElementById('survey_name').href = `/?id=${feedbackForID}#edit`;
+                    document.getElementById('survey_name').href = `/edit?id=${feedbackForID}`;
                     surveyForm = res;
                     qnsList = res.qns;
                     res.replyCount ? document.getElementById('republishSurveyMsg').style.display = 'block' : document.getElementById('republishSurveyMsg').style.display = 'none';
@@ -526,7 +526,7 @@ $Router.config([
                     resp.json().then(r => {
                         if (r.status == 'SUCCESS') {
                             localStorage.setItem('feedback_for', r.data.feedbackFor);
-                            $Router.hash('#thank-you');
+                            $Router.hash('thank-you');
                         }
                     })
                 });
@@ -549,7 +549,7 @@ $Router.config([
                 const feedbackQnHolder = document.getElementById('feedbackQnHolder');
                 version = res._id;
                 if (submittedVersion === version && res.once) {
-                    $Router.go('#thank-you');
+                    $Router.go('thank-you');
                 }
                 answers.feedbackFor = res.feedbackFor;
                 //set creator id
@@ -618,7 +618,7 @@ $Router.config([
                     document.title = res.name + ' | Dashboard from FeeFo';
                     document.getElementById('survey_name_dashboard').textContent = res.name;
                     document.getElementById('survey_name_dashboard').title = res.name;
-                    document.getElementById('survey_name_dashboard').href = `/?id=${feedbackForID}#edit`;
+                    document.getElementById('survey_name_dashboard').href = `/edit?id=${feedbackForID}`;
                     feedbackQnsList = res.qns;
                     optionsList = res.optionsList;
                     let answeredQnsMapForReplyCount = {};
