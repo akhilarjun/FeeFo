@@ -204,7 +204,7 @@ html .sticky-footer {
   background-color: #fff;
 }
 
-html [copied]:after, html [copied=false]:after {
+html [copied]:after, html [copied=false]:after, html [shared]:after, html [shared=false]:after {
   background: rgba(0, 0, 0, 0);
   z-index: -10;
   position: absolute;
@@ -229,7 +229,11 @@ html [copied]:after, html [copied=false]:after {
   transition: all 500ms;
 }
 
-html [copied=true]:after {
+html [shared=true]:after {
+  content: "URL Shared";
+}
+
+html [copied=true]:after, html [shared=true]:after {
   background: #677ee6;
   z-index: 999;
 }

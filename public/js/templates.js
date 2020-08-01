@@ -83,7 +83,7 @@
         },
         SURVEY_CARD: {
             blueprint: `
-            <div class="p-4 lg:w-1/3 w-full relative md:w-1/2 xl:w-1/4" id="survey#surveyno#" copied="false">
+            <div class="p-4 lg:w-1/3 w-full relative md:w-1/2 xl:w-1/4" id="survey#surveyno#" copied="false"  shared="false">
                 <div class="h-full bg-gray-200 hover:bg-gray-200 px-8 pt-16 pb-24 rounded-lg overflow-hidden text-center relative">
                     <h2 class="tracking-widest text-xs title-font font-medium text-gray-500 mb-1">SURVEY</h2>
                     <h1 class="title-font sm:text-2xl text-xl font-medium text-gray-900 mb-3">#title#</h1>

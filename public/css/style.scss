@@ -190,7 +190,7 @@ html {
         background-color: #fff;
     }
 
-    [copied]:after,[copied=false]:after{
+    [copied]:after,[copied=false]:after,[shared]:after,[shared=false]:after{
         background: rgba(0,0,0,0);
         z-index: -10;
         position: absolute;
@@ -207,8 +207,12 @@ html {
         font-size: 25px;
         transition: all 500ms;
     }
+
+    [shared=true]:after {
+        content: "URL Shared";
+    }
     
-    [copied=true]:after{
+    [copied=true]:after, [shared=true]:after{
         background: $themeblue;
         z-index: 999;
     }

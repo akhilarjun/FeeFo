@@ -150,16 +150,30 @@ const closeModal = (id) => {
 
 const copyLink = (link, id) => {
     const toCopy = `${location.protocol}//${location.host}${link}`;
-    let input = document.createElement('input');
-    input.value = toCopy;
-    document.querySelector('body').appendChild(input);
-    input.select();
-    document.execCommand('copy');
-    document.querySelector('body').removeChild(input);
-    document.getElementById(id).setAttribute('copied', 'true');
-    setTimeout(() => {
-        document.getElementById(id).setAttribute('copied', 'false');
-    }, 1000);
+    if (navigator.share !== undefined) {
+        navigator.share({
+          title: 'Feefo Survey',
+          text: toCopy,
+        })
+        .then(() => {
+            document.getElementById(id).setAttribute('shared', 'true');
+            setTimeout(() => {
+                document.getElementById(id).setAttribute('shared', 'false');
+            }, 1000);
+        })
+        .catch((error) => console.log('Sharing failed', error));
+    } else {
+        let input = document.createElement('input');
+        input.value = toCopy;
+        document.querySelector('body').appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.querySelector('body').removeChild(input);
+        document.getElementById(id).setAttribute('copied', 'true');
+        setTimeout(() => {
+            document.getElementById(id).setAttribute('copied', 'false');
+        }, 1000);
+    }
 }
 
 window.addEventListener("resize", paintMosaic);
