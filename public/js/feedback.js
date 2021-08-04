@@ -148,20 +148,34 @@ const closeModal = (id) => {
 
 }
 
+const downloadSurveyResults = (id, name) => {
+    fetch('/dashboard/downloadreport/' + id).then(checkForErrors).then(res => {
+        return res.blob()
+    }).then(blob => {
+        var url = window.URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = name + '.xlsx';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    })
+}
+
 const copyLink = (link, id) => {
     const toCopy = `${location.protocol}//${location.host}${link}`;
     if (navigator.share !== undefined) {
         navigator.share({
-          title: 'Feefo Survey',
-          text: toCopy,
+            title: 'Feefo Survey',
+            text: toCopy,
         })
-        .then(() => {
-            document.getElementById(id).setAttribute('shared', 'true');
-            setTimeout(() => {
-                document.getElementById(id).setAttribute('shared', 'false');
-            }, 1000);
-        })
-        .catch((error) => console.log('Sharing failed', error));
+            .then(() => {
+                document.getElementById(id).setAttribute('shared', 'true');
+                setTimeout(() => {
+                    document.getElementById(id).setAttribute('shared', 'false');
+                }, 1000);
+            })
+            .catch((error) => console.log('Sharing failed', error));
     } else {
         let input = document.createElement('input');
         input.value = toCopy;
@@ -633,6 +647,9 @@ $Router.config([
                     document.getElementById('survey_name_dashboard').textContent = res.name;
                     document.getElementById('survey_name_dashboard').title = res.name;
                     document.getElementById('survey_name_dashboard').href = `/edit?id=${feedbackForID}`;
+                    document.getElementById('survey_download_btn').addEventListener('click', () => {
+                        downloadSurveyResults(feedbackForID, res.name)
+                    });
                     feedbackQnsList = res.qns;
                     optionsList = res.optionsList;
                     let answeredQnsMapForReplyCount = {};
