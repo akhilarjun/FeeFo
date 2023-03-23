@@ -1,7 +1,7 @@
 const loaderPage = document.getElementById('loader_page');
 let feedbackForID, deleteSurveyQn, copySurveyQn, choseSurveyAnswerType, windowScrollingFn = () => { }, addOption, cancelOption, deleteOption, errorObj = {};
 
-errorObj.status = 'Oh!';
+errorObj.status = 'Oh!!';
 errorObj.statusText = 'Sorry about this';
 
 if (!isBrowserOld()) {
